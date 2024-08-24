@@ -13,16 +13,33 @@ abstract class ProductFetcher {
      * The base URL for the REST API.
      * @var string
      */
-    protected $apiBaseUrl;
+    protected string $apiBaseUrl;
+    protected string $token ;
+    protected string $end_point ;
 
     /**
      * Constructor to set the base URL.
      *
      * @param string $apiBaseUrl
      */
-    public function __construct($apiBaseUrl) {
+    public function __construct( string $apiBaseUrl ) {
         $this->apiBaseUrl = $apiBaseUrl;
+        $this->token      =  $this->getToken();
     }
+
+
+
+
+
+   public function  getToken():string  
+   {
+
+      
+
+      return '' ;
+   }
+
+
 
     /**
      * Abstract method to fetch products.
@@ -38,8 +55,9 @@ abstract class ProductFetcher {
      * @param string $endpoint
      * @return array
      */
-    protected function getApiData($endpoint) {
-        $url = $this->apiBaseUrl . $endpoint;
+    protected function getApiData($end_point  ) 
+    {
+        $url      = $this->apiBaseUrl . $end_point;
         $response = file_get_contents($url);
 
         if ($response === FALSE) {
@@ -52,9 +70,29 @@ abstract class ProductFetcher {
 
 
 
-    protected function getProductByData()
+    protected function getProductByData( string $end_point , array $data  )
     {
-        
+        $url  = $this->apiBaseUrl . $end_point ; 
+        $json_data = json_encode($data) ;
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => $url ,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS => $json_data  ,
+        CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . $this->token 
+        ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return json_decode($response, true);
     }
 }
 

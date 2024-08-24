@@ -1,5 +1,5 @@
 <?php 
-
+use Incl\Cls\InstallStoreApi ;
 
 
 
@@ -41,9 +41,17 @@ if (!defined('STORE_APIS_DIR_DIR_URL')) {
   define('STORE_APIS_DIR_DIR_URL', plugin_dir_url(__FILE__));
 }
 
+if (!defined('STORE_APIS_DB_NAME')) 
+{
+  define('STORE_APIS_DB_NAME',  'little-store'   );
+}
+
 
 require_once STORE_APIS_DIR_PATH . 'functions.php';
 
+$store_apis = InstallStoreApi::get_instance() ;
+
+register_activation_hook(__FILE__,  array( $store_apis     , 'activate'));
 
 
 
