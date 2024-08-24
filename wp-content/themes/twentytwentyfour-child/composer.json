@@ -1,0 +1,19 @@
+{
+    "name": "vendore/little-stor",
+    "description": "no description it's a test project",
+    "type": "wordpress-theme",
+    "authors": [
+        {
+            "name": "david kahadze",
+            "email": "davknet1@gmail.com"
+        }
+    ],
+    "autoload" :{
+
+        "psr-4": { 
+           
+            "Inc\\" : "inc/"
+        }
+    },
+    "require": {}
+}

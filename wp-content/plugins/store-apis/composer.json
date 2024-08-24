@@ -1,0 +1,22 @@
+{
+    "name": "vendor/store-apis",
+    "description": "A powerful plugin that integrates your WordPress site with third-party store APIs to fetch and display product data seamlessly. Ideal for online stores looking to manage and showcase products from external sources.",
+    "type": "wordpres-plugin",
+    "authors": [
+        {
+            "name": "David Kahadze"
+        }
+    ],
+    "autoload" :{
+
+        "psr-4": { 
+           
+            "Incl\\Abs\\" : "incl/Abs/" ,
+            "Incl\\Cls\\" : "incl/Cls/" ,
+            "Incl\\Int\\" : "incl/Int/" ,
+            "Incl\\Tra\\" : "incl/Tra/" 
+
+        }
+    },
+    "require": {}
+}
