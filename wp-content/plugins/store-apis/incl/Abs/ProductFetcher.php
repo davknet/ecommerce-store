@@ -33,9 +33,6 @@ abstract class ProductFetcher {
 
    public function  getToken():string  
    {
-
-      
-
       return '' ;
    }
 
@@ -68,6 +65,24 @@ abstract class ProductFetcher {
     }
 
 
+     
+
+    protected getToken()
+    {
+        $userInfo  = get_userdata(1); 
+        $email     =  $userInfo->user_email ;
+        $password  =  REST_API_PASSWORD ;
+        $data      = array(
+             'email'     =>  $email ,
+             'password'  =>  $password 
+        ); 
+        $token     =  $this->generateToken(  '/store-json/v1/token' ,  $data ) ; 
+
+    }
+
+
+
+
 
 
     protected function getProductByData( string $end_point , array $data  )
@@ -94,5 +109,34 @@ abstract class ProductFetcher {
         curl_close($curl);
         return json_decode($response, true);
     }
+
+
+
+     private  function generateToken( string $end_point , array $data )
+     {
+           $data = json_encode($data) ;
+           $curl = curl_init();
+                curl_setopt_array($curl, array(
+                CURLOPT_URL => $this->apiBaseUrl . $end_point ,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => $data ,
+                CURLOPT_HTTPHEADER => array(
+                    'someKey: adfsgdtrebdkshgsdh3uyuyyd',
+                    'Content-Type: application/json'
+                ),
+                ));
+
+                $response = curl_exec($curl);
+
+                curl_close($curl);
+                return  $response;
+     }
+
 }
 

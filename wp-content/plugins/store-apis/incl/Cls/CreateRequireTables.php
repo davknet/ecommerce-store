@@ -1,6 +1,7 @@
 <?php 
 namespace Incl\Cls; 
 
+use Incl\Tra\ActivationQueryfunctions ;
 
 
 
@@ -67,7 +68,7 @@ class CreateRequireTables
        $table_names              = self::sellectAllTablesNames() ;  
        $this->allDataBaseTables  =  array_column($table_names , $db_name  );
        $this->prefix             = self::getPrefix() ;
-       $this->create_non_existent_tables( $this->prefix  );
+     
     //  error_log( self::$db_option_name . ' Plugin has been activated. ');
       
          
@@ -105,6 +106,7 @@ class CreateRequireTables
     public  function activate()
     {
           
+        $this->create_non_existent_tables( $this->prefix  );
 
     }
 
@@ -115,7 +117,6 @@ class CreateRequireTables
 
     public static function getTableName()
     {
-        global $wpdb;
         return  $this->prefix  . $this->db_table_name;
     }
 
@@ -135,7 +136,7 @@ class CreateRequireTables
     
 
 
-        protected   function make_sure_the_table_does_not_exist( string $table_name , string  $prefix = null ):T_BOOL_CAST
+        protected   function make_sure_the_table_does_not_exist( string $table_name , string  $prefix = null ):bool 
         {       
                 $n_table_name = ( !is_null($prefix) )? $prefix . $table_name : $table_name ;
     
@@ -158,14 +159,13 @@ class CreateRequireTables
     protected  function create_non_existent_tables( string $prefix = null )
     {
          $prefix       = (is_null($prefix)) ? '' : $prefix ;
-         $table_names  =  self::$plugin_table_names ;
+         $table_names  =  $this->plugin_table_names ;
          foreach( $table_names as $key => $name  )
          {
              if( !$this->make_sure_the_table_does_not_exist( $name  ,  $prefix ) )
              {
                      $function_name =  'create_' . $name .'_table' ;  
-                     $table_name    = $prefix . $name ;
-                     $this->$function_name( $table_name  );
+                     $this->$function_name( $name , $prefix   );
              }
          }
     }

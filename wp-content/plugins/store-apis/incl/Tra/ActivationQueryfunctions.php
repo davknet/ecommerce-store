@@ -35,7 +35,7 @@ trait ActivationQueryfunctions
 
 
 
-    public function create_user_rest_api_tokens_table( string $name ,string  $prefix )
+    public function create_user_rest_api_tokens_table( string $name  , string $prefix  )
     {
         $table_name = $prefix  . $name ;
         $wp_users   = $prefix  . 'users' ;

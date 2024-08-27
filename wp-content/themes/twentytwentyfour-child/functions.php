@@ -19,4 +19,4 @@ add_action('wp_enqueue_scripts', 'twentytwentyfourChildEnqueueStyles');
 
 
 
-
+// echo get_rest_url(null, 'store-api/');

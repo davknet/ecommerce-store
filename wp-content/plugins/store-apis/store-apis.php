@@ -1,5 +1,6 @@
 <?php 
 use Incl\Cls\InstallStoreApi ;
+use Incl\Cls\CreateRequireTables;
 
 
 
@@ -46,12 +47,19 @@ if (!defined('STORE_APIS_DB_NAME'))
   define('STORE_APIS_DB_NAME',  'little-store'   );
 }
 
+define( 'REST_API_BASE_URL' ,  'http://store:8888/'   );
+define( 'REST_API_PASSWORD' ,  '12345678'   );
 
 require_once STORE_APIS_DIR_PATH . 'functions.php';
 
-$store_apis = InstallStoreApi::get_instance() ;
+$store_apis   =  InstallStoreApi::get_instance() ;
+$createTables =  CreateRequireTables::get_instance() ; 
+
 
 register_activation_hook(__FILE__,  array( $store_apis     , 'activate'));
+add_action('plugins_loaded', array( $createTables          , 'activate'));
+
+
 
 
 
